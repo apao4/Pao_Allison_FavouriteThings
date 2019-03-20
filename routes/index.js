@@ -13,10 +13,24 @@ router.get('/', function(req, res, next) {
       console,log(err);
     } else {
       console.log(result);
-      // res.render('index', { avatars: result });
+      res.render('index', { avatars: result });
     }
   });
-  res.render('index', { title: 'Express' });
+});
+
+//get individual data / bio info
+router.get('/:hero', function(req, res, next) {
+  // do a database query and get some of the hero data 
+  connect.query(`SELECT * FROM hero WHERE name="${req.params.hero}"`, (err, result) => {// this is the query that we want to run
+
+    if (err) {
+      throw err; //if there is an error, we want to throw that error
+      console,log(err);
+    } else {
+      console.log(result);
+      res.render('bio', { bioData: result[0] });
+    }
+  });
 });
 
 module.exports = router;
